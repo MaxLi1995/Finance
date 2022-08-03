@@ -58,19 +58,21 @@ def buy():
     if request.method == "POST":
 
         if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 403)
+            return apology("must provide stock symbol", 400)
 
         if not request.form.get("shares"):
-            return apology("must provide number of stock to buy", 403)
+            return apology("must provide number of stock to buy", 400)
 
         amount = request.form.get("shares")
         stock_detail = lookup(request.form.get("symbol"))
         fund = db.execute("select cash from users where id = ?", session["user_id"])
 
         if stock_detail is None:
-            return apology("stock does not exist", 403)
+            return apology("stock does not exist", 400)
+        elif not request.form.get("shares").is_integer():
+            return apology("only whole numbers", 400)
         elif fund[0].get("cash") - int(amount) * stock_detail.get("price") < 0:
-            return apology("not enough funds", 403)
+            return apology("not enough funds", 400)
         else:
             remaining = fund[0].get("cash") - int(amount) * stock_detail.get("price")
             db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get("symbol"), amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
@@ -208,10 +210,10 @@ def sell():
     if request.method == "POST":
 
         if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 403)
+            return apology("must provide stock symbol", 400)
 
         if not request.form.get("shares"):
-            return apology("must provide number of stock to sell", 403)
+            return apology("must provide number of stock to sell", 400)
 
         amount = int(request.form.get("shares"))
         stock_detail = lookup(request.form.get("symbol"))
@@ -220,9 +222,9 @@ def sell():
 
 
         if stock_detail is None:
-            return apology("stock does not exist", 403)
+            return apology("stock does not exist", 400)
         elif amount > int(info[0].get("amount")) or info[0].get("amount") is None:
-            return apology("selling more stock than owned", 403)
+            return apology("selling more stock than owned", 400)
         else:
             value = stock_detail.get("price") * amount
             db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get("symbol"), -amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
