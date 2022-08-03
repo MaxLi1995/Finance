@@ -177,12 +177,12 @@ def register():
         elif request.form.get("password") != request.form.get("cpassword"):
             return apology("passwords does not match", 403)
 
-        rusername = request.form.get("username")
-        rpassword = request.form.get("password")
+        username = request.form.get("username")
+        password = request.form.get("password")
 
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
         if len(rows) == 0:
-            db.execute("insert into users (username, hash) values(?, ?)", rusername, generate_password_hash(password))
+            db.execute("insert into users (username, hash) values(?, ?)", username, generate_password_hash(password))
             rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
             # Remember which user has logged in
