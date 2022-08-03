@@ -69,7 +69,7 @@ def buy():
 
         if stock_detail is None:
             return apology("stock does not exist", 400)
-        elif isinstance(request.form.get("shares"), str)or not request.form.get("shares").is_integer():
+        elif request.form.get("shares").isdigit() == False:
             return apology("only whole numbers", 400)
         elif fund[0].get("cash") - int(amount) * stock_detail.get("price") < 0:
             return apology("not enough funds", 400)

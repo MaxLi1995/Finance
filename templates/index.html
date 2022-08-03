@@ -24,7 +24,7 @@
                                 <td>{{ a.symbol }}</td>
                                 <td>{{ a.amount }}</td>
                                 <td>{{ price[a.symbol] }}</td>
-                                <td>{{ '%0.2f'| format((price[a.symbol] * a.amount)|float) }}</td>
+                                <td>{{'%0.2f'| format((price[a.symbol] * a.amount)|float)}}</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
