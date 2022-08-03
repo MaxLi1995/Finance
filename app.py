@@ -167,23 +167,23 @@ def register():
     if request.method == "POST":
 
         # Ensure username was submitted
-        if not request.form.get("rusername"):
+        if not request.form.get("username"):
             return apology("must provide username", 403)
 
         # Ensure password was submitted
-        elif not request.form.get("rpassword"):
+        elif not request.form.get("password"):
             return apology("must provide password", 403)
 
-        elif request.form.get("rpassword") != request.form.get("cpassword"):
+        elif request.form.get("password") != request.form.get("cpassword"):
             return apology("passwords does not match", 403)
 
-        rusername = request.form.get("rusername")
-        rpassword = request.form.get("rpassword")
+        rusername = request.form.get("username")
+        rpassword = request.form.get("password")
 
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("rusername"))
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
         if len(rows) == 0:
-            db.execute("insert into users (username, hash) values(?, ?)", rusername, generate_password_hash(rpassword))
-            rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("rusername"))
+            db.execute("insert into users (username, hash) values(?, ?)", rusername, generate_password_hash(password))
+            rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
             # Remember which user has logged in
             session["user_id"] = rows[0]["id"]
