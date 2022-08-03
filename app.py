@@ -217,7 +217,7 @@ def sell():
 
         amount = int(request.form.get("shares"))
         stock_detail = lookup(request.form.get("symbol"))
-        info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? and symbol is ? group by symbol", session["user_id"], request.form.get("symbol").upper())
+        info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? and symbol is ? group by symbol", session["user_id"], request.form.get("symbol"))
         fund = db.execute("select cash from users where id = ?", session["user_id"])[0].get("cash")
 
 
@@ -234,4 +234,5 @@ def sell():
 
         return redirect("/")
     else:
-        return render_template("sell.html")
+        info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? group by symbol", session["user_id"])
+        return render_template("sell.html", info=info)

@@ -10,9 +10,14 @@
             <h2>Selling stocks</h2>
             <form action="/sell" method="post">
                 <div class="mb-3">
-                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="symbol" type="text">
-                </div>
-                <div class="mb-3">
+                    <select name="symbol" placeholder="" type="text">
+                        {% for a in info %}
+                        {% if a.amount > 0 %}
+                            <option>{{ a.symbol }}</option>
+                        {% endif %}
+                        {% endfor %}
+
+                    </select>
                     <input name="shares" placeholder="shares" type="number" min="1">
                 </div>
                 <button class="btn btn-primary" type="submit">Sell</button>
