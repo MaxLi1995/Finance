@@ -18,7 +18,7 @@
                 <tbody>
                     <tr>
                         <th>{{ value.symbol }}</th>
-                        <th>{{ value.price }}</th>
+                        <th>{{'%0.2f'| format(value.price|float)}}%</th>
                     </tr>
                 </tbody>
             </table>
