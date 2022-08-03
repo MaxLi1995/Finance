@@ -7,8 +7,23 @@
 {% block main %}
     <div class="container">
         <div class="section">
-            <p>{{ value.name }}: {{ value.price }} $USD</p>
+            <h2>quote</h2>
+            <table style="margin-left: auto; margin-right: auto;">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in row %}
+                        <tr>
+                            <th>value.symbol</th>
+                            <th>value.price</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-
 {% endblock %}
