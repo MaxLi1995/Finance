@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="section">
+            <h2>portfolio</h2>
+            <table style="margin-left: auto; margin-right: auto;">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in row %}
+                        {% if a.amount > 0%}
+                            <tr>
+                                <td>{{ a.symbol }}</td>
+                                <td>{{ a.amount }}</td>
+                                <td>{{ price[a.symbol] }}</td>
+                                <td>{{ '%0.2f'| format((price[a.symbol] * a.amount)|float) }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div><b>Funds left</b>: {{ fund[0].cash }}</div>
+        </div>
+    </div>
+{% endblock %}

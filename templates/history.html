@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="container">
+        <div class="section">
+            <h2>History</h2>
+            <table style="margin-left: auto; margin-right: auto;">
+                <thead>
+                    <tr>
+                        <th>Buy/Sell</th>
+                        <th>Symbol</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Date Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in history %}
+                    <tr>
+                        {% if a.amount < 0 %}
+                        <td>Sell</td>
+                        {% elif a.amount > 0 %}
+                        <td>Buy</td>
+                        {% endif %}
+                        <td>{{ a.symbol }}</td>
+                        <td>{{ a.amount }}</td>
+                        <td>{{ a.price }}</td>
+                        <td>{{ a.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
