@@ -16,12 +16,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for a in row %}
-                        <tr>
-                            <th>value.symbol</th>
-                            <th>value.price</th>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <th>{{ value.symbol }}</th>
+                        <th>{{ value.price }}</th>
+                    </tr>
                 </tbody>
             </table>
         </div>
