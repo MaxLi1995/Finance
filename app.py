@@ -75,15 +75,14 @@ def buy():
             return apology("not enough funds", 400)
         else:
             remaining = fund[0].get("cash") - int(amount) * stock_detail.get("price")
-            db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get("symbol"), amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
+            db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get(
+                "symbol"), amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
             db.execute("update users set cash = ? where id = ?", str(round(remaining, 2)), session["user_id"])
             flash("purchase sucessful")
-
 
         return redirect("/")
     else:
         return render_template("buy.html")
-
 
 
 @app.route("/history", methods=["GET"])
@@ -196,12 +195,9 @@ def register():
         else:
             return apology("username already exists", 400)
 
-
-
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
-
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -217,9 +213,9 @@ def sell():
 
         amount = int(request.form.get("shares"))
         stock_detail = lookup(request.form.get("symbol"))
-        info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? and symbol is ? group by symbol", session["user_id"], request.form.get("symbol"))
+        info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? and symbol is ? group by symbol",
+                          session["user_id"], request.form.get("symbol"))
         fund = db.execute("select cash from users where id = ?", session["user_id"])[0].get("cash")
-
 
         if stock_detail is None:
             return apology("stock does not exist", 400)
@@ -227,15 +223,16 @@ def sell():
             return apology("selling more stock than owned", 400)
         else:
             value = stock_detail.get("price") * amount
-            db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get("symbol"), -amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
+            db.execute("insert into history (user_id, symbol, amount, date, price) values(?, ?, ?, ?, ?)", session["user_id"], stock_detail.get(
+                "symbol"), -amount, date.today().strftime("%m/%d/%y") + ' ' + datetime.now().strftime("%H:%M:%S"), stock_detail.get("price"))
             db.execute("update users set cash = ? where id = ?", str(round(value + fund, 2)), session["user_id"])
             flash("sold sucessfully")
-
 
         return redirect("/")
     else:
         info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? group by symbol", session["user_id"])
         return render_template("sell.html", info=info)
+
 
 @app.route("/fund", methods=["GET", "POST"])
 @login_required
