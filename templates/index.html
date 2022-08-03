@@ -30,7 +30,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div><b>Funds left</b>: {{ fund[0].cash }}</div>
+            <div><b>Funds left</b>: {{'%0.2f'| format((fund[0].cash )|float)}}</div>
         </div>
     </div>
 {% endblock %}
