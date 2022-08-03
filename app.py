@@ -146,12 +146,12 @@ def quote():
     if request.method == "POST":
 
         if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 403)
+            return apology("must provide stock symbol", 400)
 
         detail = lookup(request.form.get("symbol"))
 
         if detail is None:
-            return apology("stock doesn't exist", 403)
+            return apology("stock doesn't exist", 400)
         else:
             return render_template("quoted.html", value=detail)
     else:
@@ -168,14 +168,14 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
 
         elif request.form.get("password") != request.form.get("confirmation"):
-            return apology("passwords does not match", 403)
+            return apology("passwords does not match", 400)
 
         username = request.form.get("username")
         password = request.form.get("password")
@@ -192,7 +192,7 @@ def register():
             # Redirect user to home page
             return redirect("/")
         else:
-            return apology("username already exists", 403)
+            return apology("username already exists", 400)
 
 
 
