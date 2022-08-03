@@ -174,7 +174,7 @@ def register():
         elif not request.form.get("password"):
             return apology("must provide password", 403)
 
-        elif request.form.get("password") != request.form.get("cpassword"):
+        elif request.form.get("password") != request.form.get("confirmation"):
             return apology("passwords does not match", 403)
 
         username = request.form.get("username")
