@@ -236,3 +236,20 @@ def sell():
     else:
         info = db.execute("select symbol, sum(amount) as amount from history where user_id = ? group by symbol", session["user_id"])
         return render_template("sell.html", info=info)
+
+@app.route("/fund", methods=["GET", "POST"])
+@login_required
+def fund():
+    if request.method == "POST":
+
+        if not request.form.get("fund"):
+            return apology("must provide funds to add", 400)
+
+        bank = db.execute("select cash from users where id = ?", session["user_id"])[0].get("cash")
+        cash = request.form.get("fund")
+        total = float(bank) + float(cash)
+        db.execute("update users set cash = ? where id = ?", str(round(total, 2)), session["user_id"])
+
+        return redirect("/")
+    else:
+        return render_template("fund.html")
